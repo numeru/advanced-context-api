@@ -1,4 +1,4 @@
-import { ModalActionTypeMap, useModalDispatch } from '@/src/contexts/ModalContext';
+import { ModalActionType, useModalDispatch } from '@/src/contexts/ModalContext';
 
 export default function Home() {
 	const modalDispatch = useModalDispatch();
@@ -9,7 +9,7 @@ export default function Home() {
 				type="button"
 				onClick={() =>
 					modalDispatch({
-						type: ModalActionTypeMap.OPEN,
+						type: ModalActionType.OPEN,
 						Component: <CustomModal />,
 					})
 				}
@@ -30,7 +30,7 @@ function CustomModal() {
 				type="button"
 				onClick={() =>
 					modalDispatch({
-						type: ModalActionTypeMap.CLOSE,
+						type: ModalActionType.CLOSE,
 					})
 				}
 			>

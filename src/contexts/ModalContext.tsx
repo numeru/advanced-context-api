@@ -1,5 +1,7 @@
 import { createContext, useContext, useReducer } from 'react';
 
+type ValueOf<T> = T[keyof T];
+
 type ModalState = {
 	isOpen: boolean;
 	Component: {
@@ -7,17 +9,16 @@ type ModalState = {
 	};
 };
 
-export const ModalActionTypeMap = {
+export const ModalActionType = {
 	OPEN: 'OPEN_MODAL',
 	CLOSE: 'CLOSE_MODAL',
 } as const;
 
-type Action<T> = { type: T[keyof T]; Component?: React.ReactNode };
-type ModalAction = Action<typeof ModalActionTypeMap>;
+type ModalAction = { type: ValueOf<typeof ModalActionType>; Component?: React.ReactNode };
 
 function reducer(state: ModalState, action: ModalAction): ModalState {
 	switch (action.type) {
-		case ModalActionTypeMap.OPEN:
+		case ModalActionType.OPEN:
 			return {
 				...state,
 				isOpen: true,
@@ -25,12 +26,12 @@ function reducer(state: ModalState, action: ModalAction): ModalState {
 					render: () => action.Component,
 				},
 			};
-		case ModalActionTypeMap.CLOSE:
+		case ModalActionType.CLOSE:
 			return {
 				...state,
 				isOpen: false,
 				Component: {
-					render: () => <></>,
+					render: () => null,
 				},
 			};
 		default:
@@ -47,7 +48,7 @@ export const ModalProvider = ({ children }: { children: React.ReactNode }) => {
 	const [state, dispatch] = useReducer(reducer, {
 		isOpen: false,
 		Component: {
-			render: () => <></>,
+			render: () => null,
 		},
 	});
 
